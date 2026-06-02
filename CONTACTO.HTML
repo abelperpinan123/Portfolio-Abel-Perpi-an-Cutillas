@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Abel Perpiñan Cutillas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --negro:  #0a0a0a;
+      --rojo:   #e8200c;
+      --blanco: #f0ede8;
+      --gris:   #888;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--negro);
+      color: var(--blanco);
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23e8200c'/%3E%3C/svg%3E") 8 8, crosshair;
+    }
+
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+    .nav-logo svg { width: 28px; height: 28px; }
+    .nav-logo-text { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blanco); line-height: 1.3; }
+    .nav-logo-text span { display: block; font-weight: 200; font-size: 0.55rem; letter-spacing: 0.18em; color: var(--gris); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--rojo); }
+    .nav-links a.active { color: var(--blanco); }
+
+    .hero-contacto {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 2.5rem 5rem;
+      padding-top: 64px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .hero-bg-logo {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(90vw, 750px);
+      height: min(90vw, 750px);
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.2s forwards;
+    }
+    .hero-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--rojo); display: block; }
+
+    .hero-title {
+      font-size: clamp(4rem, 11vw, 10rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--blanco);
+      opacity: 0;
+      animation: fadeUp 1s ease 0.35s forwards;
+    }
+    .hero-title .dot { color: var(--rojo); }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      opacity: 0;
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+    @media (max-width: 640px) { .hero-bottom { flex-direction: column; gap: 2rem; align-items: flex-start; } }
+
+    .hero-desc { font-size: 0.8rem; font-weight: 300; line-height: 1.9; color: rgba(255,255,255,0.38); max-width: 340px; }
+
+    .hero-email {
+      font-size: clamp(1rem, 2vw, 1.6rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--blanco);
+      text-decoration: none;
+      border-bottom: 2px solid var(--rojo);
+      padding-bottom: 0.15rem;
+      transition: color 0.2s;
+    }
+    .hero-email:hover { color: var(--rojo); }
+
+    .form-section {
+      padding: 6rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    @media (max-width: 768px) { .form-section { grid-template-columns: 1fr; gap: 3rem; } }
+
+    .form-left {}
+
+    .form-label-section {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    .form-label-section::before { content: ''; width: 30px; height: 1px; background: var(--rojo); display: block; }
+
+    .form-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      color: var(--blanco);
+      margin-bottom: 2rem;
+    }
+    .form-title .dot { color: var(--rojo); }
+
+    .form-desc { font-size: 0.82rem; font-weight: 300; line-height: 2; color: rgba(255,255,255,0.42); margin-bottom: 3rem; }
+
+    .info-item { margin-bottom: 2rem; }
+    .info-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--rojo); margin-bottom: 0.4rem; }
+    .info-value { font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.6); }
+    .info-value a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+    .info-value a:hover { color: var(--blanco); }
+
+    .form-right {}
+
+    .campo {
+      margin-bottom: 2rem;
+    }
+
+    .campo label {
+      display: block;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-bottom: 0.6rem;
+    }
+
+    .campo input,
+    .campo textarea,
+    .campo select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      color: var(--blanco);
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.8rem 0;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .campo input:focus,
+    .campo textarea:focus,
+    .campo select:focus { border-bottom-color: var(--rojo); }
+
+    .campo input::placeholder,
+    .campo textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+    .campo textarea { resize: none; height: 120px; }
+
+    .campo select { cursor: pointer; }
+    .campo select option { background: #111; color: var(--blanco); }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--blanco);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 1.1rem 2.2rem;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: center;
+    }
+    .form-submit:hover { background: var(--rojo); border-color: var(--rojo); }
+    .form-submit svg { transition: transform 0.3s; }
+    .form-submit:hover svg { transform: translateX(4px); }
+
+    .redes-section {
+      padding: 5rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .redes-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 3rem;
+    }
+    .redes-label::before { content: ''; width: 30px; height: 1px; background: var(--rojo); display: block; }
+
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    @media (max-width: 640px) { .redes-grid { grid-template-columns: 1fr; } }
+
+    .red-item {
+      padding: 2.5rem 1.5rem;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+    .red-item:last-child { border-right: none; }
+    .red-item:hover { background: rgba(232,32,12,0.04); }
+
+    .red-num { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; color: var(--rojo); margin-bottom: 1rem; }
+    .red-name { font-size: 1rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; color: var(--blanco); margin-bottom: 0.5rem; }
+    .red-handle { font-size: 0.72rem; font-weight: 300; color: var(--gris); }
+
+    footer { padding: 5rem 2.5rem 4rem; border-top: 1px solid rgba(255,255,255,0.07); }
+    .footer-phrase { font-size: clamp(2.5rem, 7vw, 7rem); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 0.9; color: var(--blanco); margin-bottom: 4rem; }
+    .footer-phrase .dot { color: var(--rojo); }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 5rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.07); }
+    @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
+    .f-label { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--rojo); margin-bottom: 1rem; }
+    .f-col p, .f-col a { font-size: 0.78rem; font-weight: 300; color: rgba(255,255,255,0.35); text-decoration: none; line-height: 2.4; display: block; transition: color 0.2s; }
+    .f-col a:hover { color: var(--blanco); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    .footer-bottom p { font-size: 0.6rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.18); }
+    .footer-logo-small svg { width: 26px; height: 26px; opacity: 0.25; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.85s ease, transform 0.85s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute;overflow:hidden">
+    <defs>
+      <symbol id="logo-sym" viewBox="0 0 100 100">
+        <ellipse cx="35" cy="35" rx="14" ry="26" transform="rotate(-45 35 35)" fill="currentColor"/>
+        <ellipse cx="65" cy="35" rx="14" ry="26" transform="rotate(45 65 35)" fill="currentColor"/>
+        <ellipse cx="65" cy="65" rx="14" ry="26" transform="rotate(-45 65 65)" fill="currentColor"/>
+        <ellipse cx="35" cy="65" rx="14" ry="26" transform="rotate(45 35 65)" fill="currentColor"/>
+        <circle cx="50" cy="50" r="8" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <nav class="site-nav">
+    <a href="HOME.html" class="nav-logo">
+      <svg viewBox="0 0 100 100" style="fill:white;color:white;"><use href="#logo-sym" style="fill:white;"/></svg>
+      <div class="nav-logo-text">
+        Abel Perpiñan Cutillas
+        <span>Diseñador Gráfico</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="PROYECTOS.html">Proyectos</a></li>
+      <li><a href="SOBRE MÍ.HTML">Sobre mí</a></li>
+      <li><a href="contacto.html" class="active">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero-contacto">
+    <svg class="hero-bg-logo" viewBox="0 0 100 100" fill="none">
+      <use href="#logo-sym" fill="white"/>
+    </svg>
+    <p class="hero-eyebrow">Contacto</p>
+    <h1 class="hero-title">Hablemos<span class="dot">.</span></h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        ¿Tienes un proyecto en mente? Cuéntame de qué se trata.
+        Respondo en menos de 48 horas.
+      </p>
+      <a href="mailto:abelperpinan123@gmail.com" class="hero-email">abelperpinan123@gmail.com</a>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-left reveal">
+      <p class="form-label-section">Escríbeme</p>
+      <h2 class="form-title">Cuéntame<br>tu proyecto<span class="dot">.</span></h2>
+      <p class="form-desc">
+        Trabajo con marcas, estudios y personas que tienen algo
+        que decir. Si crees que podemos hacer algo bueno juntos,
+        escríbeme sin compromiso.
+      </p>
+      <div class="info-item">
+        <p class="info-label">Email</p>
+        <p class="info-value"><a href="mailto:abelperpinan123@gmail.com">abelperpinan123@gmail.com</a></p>
+      </div>
+      <div class="info-item">
+        <p class="info-label">Teléfono</p>
+        <p class="info-value">+34 692 332 122</p>
+      </div>
+      <div class="info-item">
+        <p class="info-label">Ubicación</p>
+        <p class="info-value">Valencia, España</p>
+      </div>
+      <div class="info-item">
+        <p class="info-label">Disponibilidad</p>
+        <p class="info-value">Abierto a nuevos proyectos desde Enero 2026</p>
+      </div>
+    </div>
+
+    <div class="form-right reveal d1">
+      <div class="campo">
+        <label>Nombre</label>
+        <input type="text" placeholder="Tu nombre completo" />
+      </div>
+      <div class="campo">
+        <label>Email</label>
+        <input type="email" placeholder="tu@email.com" />
+      </div>
+      <div class="campo">
+        <label>Tipo de proyecto</label>
+        <select>
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option>Identidad Visual</option>
+          <option>Ilustración</option>
+          <option>Packaging</option>
+          <option>Dirección de Arte</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Mensaje</label>
+        <textarea placeholder="Cuéntame de qué va tu proyecto..."></textarea>
+      </div>
+      <button class="form-submit">
+        Enviar mensaje
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="redes-section">
+    <p class="redes-label reveal">Encuéntrame en</p>
+    <div class="redes-grid">
+      <a href="#" class="red-item reveal">
+        <p class="red-num">01</p>
+        <p class="red-name">Instagram</p>
+        <p class="red-handle">@abelperpinan</p>
+      </a>
+      <a href="#" class="red-item reveal d1">
+        <p class="red-num">02</p>
+        <p class="red-name">Behance</p>
+        <p class="red-handle">behance.net/abelperpinan</p>
+      </a>
+      <a href="#" class="red-item reveal d2">
+        <p class="red-num">03</p>
+        <p class="red-name">LinkedIn</p>
+        <p class="red-handle">linkedin.com/in/abelperpinan</p>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer-phrase reveal">El diseño<br>es silencio<br>que habla<span class="dot">.</span></p>
+    <div class="footer-grid">
+      <div class="f-col reveal">
+        <p class="f-label">Contacto</p>
+        <p>abelperpinan123@gmail.com</p>
+        <p>+34 692 332 122</p>
+        <p>Valencia, España</p>
+      </div>
+      <div class="f-col reveal d1">
+        <p class="f-label">Navegación</p>
+        <a href="HOME.html">Home</a>
+        <a href="PROYECTOS.html">Proyectos</a>
+        <a href="SOBRE MÍ.HTML">Sobre mí</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="f-col reveal d2">
+        <p class="f-label">Redes</p>
+        <a href="#">Instagram</a>
+        <a href="#">Behance</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Abel Perpiñan Cutillas — Todos los derechos reservados</p>
+      <div class="footer-logo-small">
+        <svg viewBox="0 0 100 100" style="fill:white;color:white;"><use href="#logo-sym" style="fill:white;"/></svg>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
